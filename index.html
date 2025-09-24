@@ -1,282 +1,310 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Suivi de Trajet 🚗</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Suivi de Trajet Professionnel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Police moderne -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
-    h1 {
-      margin: 20px 0;
-      font-size: 2.4em;
-      font-weight: 600;
-      text-shadow: 0 3px 6px rgba(0,0,0,0.3);
-      text-align: center;
-    }
+        h1 {
+            margin: 20px 0;
+            font-size: 2.4em;
+            font-weight: 600;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.3);
+            text-align: center;
+        }
 
-    .card {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      padding: 25px;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-      text-align: center;
-      width: 100%;
-      max-width: 550px;
-      animation: fadeIn 1s ease;
-    }
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            text-align: center;
+            width: 100%;
+            max-width: 550px;
+            animation: fadeIn 1s ease;
+        }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    .btn {
-      display: inline-block;
-      padding: 14px 25px;
-      margin: 10px;
-      font-size: 1.1em;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(to right, #ffcc70, #ff8177);
-      color: #fff;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
 
-    .btn:hover {
-      transform: scale(1.08);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
-    }
+        .btn {
+            padding: 14px 25px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(to right, #ffcc70, #ff8177);
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
 
-    #result {
-      margin-top: 20px;
-      font-size: 1.3em;
-      font-weight: bold;
-    }
+        .btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+        }
 
-    #history {
-      margin-top: 30px;
-      text-align: center;
-    }
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+            box-shadow: none;
+        }
 
-    #history h2 {
-      font-size: 1.3em;
-      margin-bottom: 15px;
-    }
+        #result {
+            margin-top: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: rgba(255,255,255,0.1);
-      border-radius: 12px;
-      overflow: hidden;
-    }
+        #history {
+            margin-top: 30px;
+            text-align: center;
+        }
 
-    th, td {
-      padding: 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-      font-size: 0.95em;
-    }
+        #history h2 {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
 
-    th {
-      background: rgba(0,0,0,0.2);
-      font-weight: 600;
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
 
-    tr:hover {
-      background: rgba(255,255,255,0.15);
-    }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.95em;
+        }
 
-    footer {
-      margin-top: 40px;
-      font-size: 0.85em;
-      opacity: 0.8;
-    }
+        th {
+            background: rgba(0,0,0,0.2);
+            font-weight: 600;
+        }
 
-    @media (max-width: 600px) {
-      h1 { font-size: 2em; }
-      .btn { width: 100%; }
-      table { font-size: 0.85em; }
-    }
-  </style>
+        tr:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.85em;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2em; }
+            .btn { width: 100%; }
+            table { font-size: 0.85em; }
+        }
+    </style>
 </head>
 <body>
-  <h1>🚗 Suivi de Trajet</h1>
+    <div class="card">
+        <h1>🚗 Suivi de Trajet</h1>
 
-  <div class="card">
-    <button class="btn" onclick="startTracking()">▶️ Démarrer</button>
-    <button class="btn" onclick="stopTracking()">⏹️ Arrêter</button>
-    <button class="btn" style="background: linear-gradient(to right, #ff4b2b, #ff416c);" onclick="clearHistory()">🗑️ Effacer l’historique</button>
-    
-    <div id="result">Distance parcourue : 0 km</div>
+        <div class="btn-group">
+            <button class="btn" id="startBtn" onclick="startTracking()">▶️ Démarrer</button>
+            <button class="btn" id="stopBtn" onclick="stopTracking()" disabled>⏹️ Arrêter</button>
+            <button class="btn" style="background: linear-gradient(to right, #ff4b2b, #ff416c);" onclick="clearHistory()">🗑️ Effacer l’historique</button>
+        </div>
+        
+        <div id="result">Distance parcourue : 0 m</div>
 
-    <div id="history">
-      <h2>📜 Historique des trajets</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Départ</th>
-            <th>Arrivée</th>
-            <th>Distance</th>
-            <th>Durée</th>
-            <th>Vitesse Moy.</th>
-          </tr>
-        </thead>
-        <tbody id="entries"></tbody>
-      </table>
+        <div id="history">
+            <h2>📜 Historique des trajets</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Départ</th>
+                        <th>Arrivée</th>
+                        <th>Distance</th>
+                        <th>Durée</th>
+                        <th>Vitesse Moy.</th>
+                    </tr>
+                </thead>
+                <tbody id="entries"></tbody>
+            </table>
+        </div>
     </div>
-  </div>
+    
+    <footer>Site créé par Antonin © 2025 — Données stockées localement 📍</footer>
 
-  <footer>Site créé par Antonin © 2025 — Données stockées localement 📍</footer>
+    <script>
+        let watchId = null;
+        let lastCoords = null;
+        let totalDistance = 0;
+        let startTime = null;
+        let timerInterval = null;
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
 
-  <script>
-    let watchId = null;
-    let lastCoords = null;
-    let totalDistance = 0;
-    let startTime = null;
-    let timerInterval = null;
+        function startTracking() {
+            if (watchId !== null) {
+                alert("Un trajet est déjà en cours !");
+                return;
+            }
+            totalDistance = 0;
+            lastCoords = null;
+            startTime = new Date();
+            document.getElementById("result").innerText = "🚦 Trajet en cours...";
+            
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
 
-    function startTracking() {
-      totalDistance = 0;
-      lastCoords = null;
-      startTime = new Date();
-      document.getElementById("result").innerText = "🚦 Trajet en cours...";
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(updateDisplay, 1000);
 
-      if (timerInterval) clearInterval(timerInterval);
-      timerInterval = setInterval(updateDisplay, 1000);
+            if (navigator.geolocation) {
+                watchId = navigator.geolocation.watchPosition(position => {
+                    const coords = position.coords;
+                    if (lastCoords) {
+                        const distance = calculateDistance(
+                            lastCoords.latitude,
+                            lastCoords.longitude,
+                            coords.latitude,
+                            coords.longitude
+                        );
+                        if (distance > 1) totalDistance += distance; // Filtre les petites variations
+                    }
+                    lastCoords = coords;
+                    updateDisplay();
+                }, error => {
+                    alert("Erreur de géolocalisation : " + error.message);
+                }, {
+                    enableHighAccuracy: true,
+                    maximumAge: 0,
+                    timeout: 5000
+                });
+            } else {
+                alert("Ton appareil ne supporte pas la géolocalisation.");
+            }
+        }
 
-      if (navigator.geolocation) {
-        watchId = navigator.geolocation.watchPosition(position => {
-          const coords = position.coords;
-          if (lastCoords) {
-            const distance = calculateDistance(
-              lastCoords.latitude,
-              lastCoords.longitude,
-              coords.latitude,
-              coords.longitude
-            );
-            if (distance > 0.01) totalDistance += distance;
-          }
-          lastCoords = coords;
-          updateDisplay();
-        }, error => {
-          alert("Erreur de géolocalisation : " + error.message);
-        }, {
-          enableHighAccuracy: true,
-          maximumAge: 0,
-          timeout: 5000
-        });
-      } else {
-        alert("Ton appareil ne supporte pas la géolocalisation.");
-      }
-    }
+        function stopTracking() {
+            if (watchId !== null) {
+                navigator.geolocation.clearWatch(watchId);
+                watchId = null;
+                clearInterval(timerInterval);
+                
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
 
-    function stopTracking() {
-      if (watchId !== null) {
-        navigator.geolocation.clearWatch(watchId);
-        watchId = null;
-        clearInterval(timerInterval);
+                const endTime = new Date();
+                const durationSec = Math.floor((endTime - startTime) / 1000);
+                const durationStr = formatDuration(durationSec);
+                const avgSpeed = totalDistance > 0 ? (totalDistance / (durationSec / 3600)) : 0;
 
-        const endTime = new Date();
-        const durationSec = Math.floor((endTime - startTime) / 1000);
-        const durationStr = formatDuration(durationSec);
-        const avgSpeed = totalDistance > 0 ? (totalDistance / (durationSec / 3600)) : 0;
+                const entry = {
+                    date: endTime.toLocaleDateString(),
+                    start: startTime.toLocaleTimeString(),
+                    end: endTime.toLocaleTimeString(),
+                    distance: totalDistance.toFixed(2),
+                    duration: durationStr,
+                    avgSpeed: avgSpeed.toFixed(2)
+                };
+                saveEntry(entry);
+                displayEntries();
 
-        const entry = {
-          date: endTime.toLocaleDateString(),
-          start: startTime.toLocaleTimeString(),
-          end: endTime.toLocaleTimeString(),
-          distance: totalDistance.toFixed(2),
-          duration: durationStr,
-          avgSpeed: avgSpeed.toFixed(2)
-        };
-        saveEntry(entry);
+                document.getElementById("result").innerText = 
+                    `✅ Trajet terminé — ${entry.distance} m en ${entry.duration}`;
+            } else {
+                alert("Aucun trajet en cours.");
+            }
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371e3; // Rayon de la Terre en mètres
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        function formatDuration(seconds) {
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            const s = seconds % 60;
+            return `${h}h ${m}m ${s}s`;
+        }
+
+        function updateDisplay() {
+            const now = new Date();
+            const elapsedSec = Math.floor((now - startTime) / 1000);
+            document.getElementById("result").innerText =
+                `Distance : ${totalDistance.toFixed(2)} m | Temps : ${formatDuration(elapsedSec)}`;
+        }
+
+        function saveEntry(entry) {
+            const history = JSON.parse(localStorage.getItem("trajets") || "[]");
+            history.push(entry);
+            localStorage.setItem("trajets", JSON.stringify(history));
+        }
+
+        function displayEntries() {
+            const history = JSON.parse(localStorage.getItem("trajets") || "[]");
+            const container = document.getElementById("entries");
+            container.innerHTML = "";
+            history.slice().reverse().forEach(e => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${e.date}</td>
+                    <td>${e.start}</td>
+                    <td>${e.end}</td>
+                    <td>${e.distance} m</td>
+                    <td>${e.duration}</td>
+                    <td>${e.avgSpeed} m/h</td>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function clearHistory() {
+            if (confirm("⚠️ Veux-tu vraiment effacer tout l’historique ?")) {
+                localStorage.removeItem("trajets");
+                displayEntries();
+                document.getElementById("result").innerText = "📭 Historique vidé.";
+            }
+        }
+        
         displayEntries();
-
-        document.getElementById("result").innerText = 
-          `✅ Trajet terminé — ${entry.distance} km en ${entry.duration}`;
-      } else {
-        alert("Aucun trajet en cours.");
-      }
-    }
-
-    function calculateDistance(lat1, lon1, lat2, lon2) {
-      const R = 6371;
-      const dLat = (lat2 - lat1) * Math.PI / 180;
-      const dLon = (lon2 - lon1) * Math.PI / 180;
-      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                Math.sin(dLon/2) * Math.sin(dLon/2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      return R * c;
-    }
-
-    function formatDuration(seconds) {
-      const h = Math.floor(seconds / 3600);
-      const m = Math.floor((seconds % 3600) / 60);
-      const s = seconds % 60;
-      return `${h}h ${m}m ${s}s`;
-    }
-
-    function updateDisplay() {
-      const now = new Date();
-      const elapsedSec = Math.floor((now - startTime) / 1000);
-      document.getElementById("result").innerText =
-        `Distance : ${totalDistance.toFixed(2)} km | Temps : ${formatDuration(elapsedSec)}`;
-    }
-
-    function saveEntry(entry) {
-      const history = JSON.parse(localStorage.getItem("trajets") || "[]");
-      history.push(entry);
-      localStorage.setItem("trajets", JSON.stringify(history));
-    }
-
-    function displayEntries() {
-      const history = JSON.parse(localStorage.getItem("trajets") || "[]");
-      const container = document.getElementById("entries");
-      container.innerHTML = "";
-      history.slice().reverse().forEach(e => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${e.date}</td>
-          <td>${e.start}</td>
-          <td>${e.end}</td>
-          <td>${e.distance} km</td>
-          <td>${e.duration}</td>
-          <td>${e.avgSpeed} km/h</td>
-        `;
-        container.appendChild(row);
-      });
-    }
-
-    function clearHistory() {
-      if (confirm("⚠️ Veux-tu vraiment effacer tout l’historique ?")) {
-        localStorage.removeItem("trajets");
-        displayEntries();
-        document.getElementById("result").innerText = "📭 Historique vidé.";
-      }
-    }
-
-    displayEntries();
-  </script>
+    </script>
 </body>
 </html>
